@@ -138,7 +138,7 @@ if "page" not in st.session_state:
 
 # ---------- MAIN APP ----------
 def main_app():
-    st.sidebar.title("🏦 Loan App")
+    st.sidebar.title("🏦 Loan Approval Prediction App")
     if st.sidebar.button("🏠 Home"):
         set_page("Home")
     if st.sidebar.button("📊 Prediction"):
@@ -156,7 +156,7 @@ def main_app():
     # ---------- HOME PAGE ----------
     if page == "Home":
         st.markdown("""<h1 style='text-align:center;color:#2E8B57;'>🏦 Loan Prediction System</h1>""", unsafe_allow_html=True)
-        st.write("### Smart AI-based Loan Approval System")
+        st.write("### Smart Loan Approval prediction System")
         st.image("https://images.unsplash.com/photo-1565514158740-064f34bd6cfd", use_container_width=True)
 
     # ---------- PREDICTION PAGE ----------
