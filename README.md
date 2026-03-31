@@ -68,7 +68,7 @@ loan-predictor/
 
 | Role | Username | Password |
 |---|---|---|
-| Admin | admin | admin123 |
+| Admin | admin | admin |
 
 ---
 
