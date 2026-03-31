@@ -1,6 +1,6 @@
 # 🏦 Loan Prediction System
 
-A smart AI-based Loan Approval Prediction System built with **Streamlit**, **Machine Learning**, and **SQLite** database.
+A smart Loan Approval Prediction System built with **Streamlit**, **Machine Learning**, and **SQLite** database.
 
 ---
 
@@ -125,7 +125,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙋‍♂️ Author
 
-Made with ❤️ by **Yoges**
+Made with ❤️ by **Yogesh**
 ```
 
 ---
