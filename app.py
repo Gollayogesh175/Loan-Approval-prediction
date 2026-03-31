@@ -57,7 +57,7 @@ def main_app():
     if page == "Home":
         st.markdown("""<h1 style='text-align:center;color:#2E8B57;'>🏦 Loan Prediction System</h1>""", unsafe_allow_html=True)
         st.write("### Smart Loan Approval System")
-        st.image("https://images.unsplash.com/photo-1565514158740-064f34bd6cfd", use_container_width=True)
+     st.image("https://images.unsplash.com/photo-1565514158740-064f34bd6cfd", use_container_width=True)
 
     # LOAN PREDICTION PAGE
     elif page == "Loan Prediction":
