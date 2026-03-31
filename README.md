@@ -1,63 +1,141 @@
-# loan-predictor
-# 🏦 Loan Approval Prediction App
+# 🏦 Loan Prediction System
 
-A machine learning web application built with Streamlit that predicts 
-whether a loan will be approved or rejected based on applicant details.
+A smart AI-based Loan Approval Prediction System built with **Streamlit**, **Machine Learning**, and **SQLite** database.
 
-## 🚀 Live Demo
-[Click here to view the app](https://your-app-link.streamlit.app)
+---
 
-## 📋 Features
-- Secure login system
-- Supports Home Loan, Car Loan, and Education Loan
-- Real-time loan eligibility prediction
-- Clean and interactive UI
+## 🚀 Features
 
-## 🛠️ Tech Stack
-- Python
-- Streamlit
-- Scikit-learn
-- Pandas
-- Pickle
+- 🔐 Multi-user Login & Registration
+- 🛡️ Role-based Access (Admin & User)
+- 📊 AI-based Loan Approval Prediction
+- 📁 Prediction Reports with PDF Download
+- 📊 Interactive Dashboard with Charts
+- 💾 SQLite Database for persistent storage
+- 🔑 Change Password functionality
+- 👥 Admin Panel to Manage Users
+
+---
+
+## 🖥️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Python | Core Language |
+| Streamlit | Web App Framework |
+| Scikit-learn | ML Model |
+| Pandas | Data Handling |
+| SQLite | Database |
+| ReportLab | PDF Generation |
+| Hashlib | Password Encryption |
+
+---
+
+## ⚙️ Installation
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/YOUR_USERNAME/loan-predictor.git
+cd loan-predictor
+```
+
+### 2. Install Requirements
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Run the App
+```bash
+streamlit run app.py
+```
+
+---
 
 ## 📁 Project Structure
+```
 loan-predictor/
-├── app.py                  # Main Streamlit app
-├── model.pkl               # Trained ML model
-├── scaler.pkl              # Feature scaler
-├── requirements.txt        # Python dependencies
-└── loan_approve_dataset.csv  # Dataset used for training
+├── app.py               # Main application file
+├── model.pkl            # Trained ML model
+├── scaler.pkl           # Feature scaler
+├── requirements.txt     # Python dependencies
+├── README.md            # Project documentation
+└── .gitignore           # Git ignore file
+```
 
-## ⚙️ How to Run Locally
-1. Clone the repository
-   git clone https://github.com/your-username/loan-predictor.git
+---
 
-2. Install dependencies
-   pip install -r requirements.txt
+## 🔑 Default Login
 
-3. Run the app
-   streamlit run app.py
+| Role | Username | Password |
+|---|---|---|
+| Admin | admin | admin123 |
 
-## 🔐 Login Credentials (Demo)
-- Username: admin
-- Password: 1234
+---
 
 ## 📊 Input Features
+
 | Feature | Description |
 |---|---|
 | Gender | Male / Female |
 | Marital Status | Married / Not Married |
 | Dependents | Number of dependents |
 | Education | Graduate / Not Graduate |
-| Self Employment | Yes / No |
-| Annual Income | Applicant's yearly income |
+| Self Employed | Yes / No |
+| Applicant Income | Monthly income |
 | Loan Amount | Requested loan amount |
-| Loan Duration | Loan repayment period |
-| CIBIL Score | Credit score (0–1000) |
-| Assets | Total assets value |
+| Loan Term | Duration in months |
+| Credit Score | CIBIL score (300-1000) |
+| Property Value | Asset value |
 
-## 🤝 Contributing
-Pull requests are welcome!
+---
+
+## 📊 CIBIL Score Guide
+
+| Score Range | Rating | Approval Chance |
+|---|---|---|
+| 750 - 900 | Excellent | High |
+| 650 - 749 | Good | Moderate |
+| 550 - 649 | Fair | Low |
+| 300 - 549 | Poor | Very Low |
+
+---
+
+## 👥 User Roles
+
+### 👤 User
+- Register and Login
+- Make Loan Predictions
+- View own Reports
+- Download PDF Reports
+- Change Password
+
+### 🛡️ Admin
+- All User features
+- View All Users Predictions
+- Manage Users (Add / Delete)
+- Full Dashboard Access
+
+---
 
 ## 📄 License
-This project is open source and available under the MIT License.
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 🙋‍♂️ Author
+
+Made with ❤️ by **Yoges**
+```
+
+---
+
+### Save this as `README.md` in your project folder:
+```
+loan-predictor/
+├── app.py
+├── model.pkl
+├── scaler.pkl
+├── requirements.txt
+├── README.md        ← add this file
+└── .gitignore
