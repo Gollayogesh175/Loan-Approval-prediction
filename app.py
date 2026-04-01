@@ -5,9 +5,7 @@ import warnings
 import sqlite3
 import hashlib
 from datetime import datetime
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
+from fpdf import FPDF
 
 warnings.filterwarnings('ignore')
 
@@ -124,64 +122,86 @@ init_db()
 
 def generate_single_pdf(row):
     file_path = f"{row['Prediction ID']}.pdf"
-    doc = SimpleDocTemplate(file_path, pagesize=letter)
-    styles = getSampleStyleSheet()
-    elements = []
-    elements.append(Paragraph("🏦 Loan Prediction Report", styles['Title']))
-    elements.append(Spacer(1, 10))
-    color = "green" if row['Result'] == "Approved" else "red"
-    elements.append(Paragraph(f"<b>Prediction ID:</b> {row['Prediction ID']}", styles['Heading2']))
-    elements.append(Paragraph(f"<b>Result:</b> <font color='{color}'>{row['Result']}</font>", styles['Heading2']))
-    elements.append(Spacer(1, 10))
-    elements.append(Paragraph(f"<b>Time:</b> {row['Time']}", styles['Normal']))
-    elements.append(Paragraph(f"<b>Loan Type:</b> {row['Loan Type']}", styles['Normal']))
-    elements.append(Paragraph(f"<b>Income:</b> ₹{row['Income']}", styles['Normal']))
-    elements.append(Paragraph(f"<b>Loan Amount:</b> ₹{row['Loan Amount']}", styles['Normal']))
-    elements.append(Paragraph(f"<b>Loan Term:</b> {row['Loan Term']} months", styles['Normal']))
-    elements.append(Paragraph(f"<b>Property Value:</b> ₹{row['Property Value']}", styles['Normal']))
-    elements.append(Paragraph(f"<b>Probability:</b> {row['Probability']:.2f}", styles['Normal']))
-    elements.append(Spacer(1, 12))
+    pdf = FPDF()
+    pdf.add_page()
+
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(0, 10, "Loan Prediction Report", ln=True, align='C')
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 10, f"Prediction ID: {row['Prediction ID']}", ln=True)
+    pdf.cell(0, 10, f"Result: {row['Result']}", ln=True)
+    pdf.ln(3)
+
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, f"Time: {row['Time']}", ln=True)
+    pdf.cell(0, 8, f"Loan Type: {row['Loan Type']}", ln=True)
+    pdf.cell(0, 8, f"Income: Rs {row['Income']}", ln=True)
+    pdf.cell(0, 8, f"Loan Amount: Rs {row['Loan Amount']}", ln=True)
+    pdf.cell(0, 8, f"Loan Term: {row['Loan Term']} months", ln=True)
+    pdf.cell(0, 8, f"Property Value: Rs {row['Property Value']}", ln=True)
+    pdf.cell(0, 8, f"Probability: {row['Probability']:.2f}", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
     if row['Result'] == "Approved":
-        msg = """✅ Loan Approved!<br/>
-        🎉 Congratulations! Your loan is approved.<br/>
-        ✔ Maintain a good repayment history to keep your credit score strong.<br/>
-        ✔ Ensure timely EMI payments to avoid penalties.<br/>
-        ✔ Your loan will be disbursed within 3-5 working days.<br/>
-        ✔ Keep your documents ready for verification."""
+        pdf.cell(0, 8, "Loan Approved!", ln=True)
+        pdf.set_font("Arial", '', 11)
+        pdf.cell(0, 8, "Congratulations! Your loan is approved.", ln=True)
+        pdf.cell(0, 8, "Maintain good repayment history to keep credit score strong.", ln=True)
+        pdf.cell(0, 8, "Ensure timely EMI payments to avoid penalties.", ln=True)
+        pdf.cell(0, 8, "Loan will be disbursed within 3-5 working days.", ln=True)
+        pdf.cell(0, 8, "Keep your documents ready for verification.", ln=True)
     else:
-        msg = """❌ Loan Rejected due to the following possible reasons:<br/>
-        ✘ Low CIBIL score (below 650)<br/>
-        ✘ Insufficient income to cover loan repayment<br/>
-        ✘ High number of dependents affecting repayment capacity<br/>
-        ✘ Unstable employment or self-employment risk<br/>
-        ✘ Loan amount too high compared to income"""
-    elements.append(Paragraph(msg, styles['Normal']))
-    elements.append(Spacer(1, 12))
-    elements.append(Paragraph("""💡 Tips to Improve Your Eligibility:<br/>
-    → Improve your CIBIL score by paying bills on time<br/>
-    → Reduce existing debts<br/>
-    → Apply for a lower loan amount<br/>
-    → Add a co-applicant to strengthen your application<br/>
-    → Maintain stable income for at least 6 months""", styles['Normal']))
-    elements.append(Spacer(1, 12))
-    elements.append(Paragraph("""📌 How Your Loan Can Be Used:<br/>
-    🏠 Home Loan → Purchase, construct, or renovate property<br/>
-    🚗 Car Loan → Buy new or used vehicles<br/>
-    🎓 Education Loan → Fund tuition, hostel, and study materials<br/>
-    💼 Business Loan → Expand business, buy equipment, manage cash flow<br/>
-    💳 Personal Loan → Medical emergencies, travel, or personal needs<br/><br/>
-    📌 Loan Repayment Tips:<br/>
-    → Always pay EMI before the due date<br/>
-    → Avoid multiple loan applications at once<br/>
-    → Keep your debt-to-income ratio below 40%<br/>
-    → Set up auto-pay to never miss a payment""", styles['Normal']))
-    elements.append(Spacer(1, 12))
-    elements.append(Paragraph("""📊 CIBIL Score Guide:<br/>
-    🟢 750 - 900 → Excellent → High approval chance<br/>
-    🟡 650 - 749 → Good → Moderate approval chance<br/>
-    🟠 550 - 649 → Fair → Low approval chance<br/>
-    🔴 300 - 549 → Poor → Very low approval chance""", styles['Normal']))
-    doc.build(elements)
+        pdf.cell(0, 8, "Loan Rejected!", ln=True)
+        pdf.set_font("Arial", '', 11)
+        pdf.cell(0, 8, "Possible reasons for rejection:", ln=True)
+        pdf.cell(0, 8, "- Low CIBIL score (below 650)", ln=True)
+        pdf.cell(0, 8, "- Insufficient income to cover loan repayment", ln=True)
+        pdf.cell(0, 8, "- High number of dependents", ln=True)
+        pdf.cell(0, 8, "- Unstable employment or self-employment risk", ln=True)
+        pdf.cell(0, 8, "- Loan amount too high compared to income", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 8, "Tips to Improve Eligibility:", ln=True)
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "- Improve CIBIL score by paying bills on time", ln=True)
+    pdf.cell(0, 8, "- Reduce existing debts", ln=True)
+    pdf.cell(0, 8, "- Apply for a lower loan amount", ln=True)
+    pdf.cell(0, 8, "- Add a co-applicant to strengthen application", ln=True)
+    pdf.cell(0, 8, "- Maintain stable income for at least 6 months", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 8, "How Your Loan Can Be Used:", ln=True)
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "Home Loan -> Purchase, construct, or renovate property", ln=True)
+    pdf.cell(0, 8, "Car Loan -> Buy new or used vehicles", ln=True)
+    pdf.cell(0, 8, "Education Loan -> Fund tuition, hostel, and study materials", ln=True)
+    pdf.cell(0, 8, "Business Loan -> Expand business, buy equipment, manage cash flow", ln=True)
+    pdf.cell(0, 8, "Personal Loan -> Medical emergencies, travel, or personal needs", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 8, "Loan Repayment Tips:", ln=True)
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "- Always pay EMI before the due date", ln=True)
+    pdf.cell(0, 8, "- Avoid multiple loan applications at once", ln=True)
+    pdf.cell(0, 8, "- Keep your debt-to-income ratio below 40%", ln=True)
+    pdf.cell(0, 8, "- Set up auto-pay to never miss a payment", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 8, "CIBIL Score Guide:", ln=True)
+    pdf.set_font("Arial", '', 11)
+    pdf.cell(0, 8, "750 - 900 -> Excellent -> High approval chance", ln=True)
+    pdf.cell(0, 8, "650 - 749 -> Good -> Moderate approval chance", ln=True)
+    pdf.cell(0, 8, "550 - 649 -> Fair -> Low approval chance", ln=True)
+    pdf.cell(0, 8, "300 - 549 -> Poor -> Very low approval chance", ln=True)
+
+    pdf.output(file_path)
     return file_path
 
 if "logged_in" not in st.session_state:
@@ -320,8 +340,8 @@ def main_app():
                             margin-bottom:20px;background-color:{color};'>
                     <b>{row["Prediction ID"]}</b> | 👤 {row['Username']}<br/>
                     Result: <b>{row['Result']}</b> | Probability: {row['Probability']:.2f}<br/>
-                    Loan Type: {row['Loan Type']} | Income: ₹{row['Income']}<br/>
-                    Loan Amount: ₹{row['Loan Amount']} | Term: {row['Loan Term']} months
+                    Loan Type: {row['Loan Type']} | Income: Rs {row['Income']}<br/>
+                    Loan Amount: Rs {row['Loan Amount']} | Term: {row['Loan Term']} months
                 </div>""", unsafe_allow_html=True)
                 col1, col2 = st.columns(2)
                 with col1:
